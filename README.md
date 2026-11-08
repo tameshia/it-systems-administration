@@ -19,6 +19,12 @@ Each project will include its objective, tools, procedures, troubleshooting obse
 
 ## Projects
 
+### [Windows Registry Editor: Backup, Modification, and Restoration](windows-registry-editor/README.md)
+
+**Windows Server 2022 | Registry Editor | winver.exe | Notepad**
+
+Backed up a Registry key, modified and verified the `RegisteredOwner` value, restored the original setting, and examined the contents of a `.reg` file. Screenshots will be added to the case study.
+
 ### [Windows Startup Troubleshooting and Recovery](windows-startup-recovery/README.md)
 
 **Windows 11 | Hyper-V | WinRE | BCDEdit**
