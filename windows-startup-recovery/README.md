@@ -33,9 +33,17 @@ I opened the Windows 11 VM's firmware settings through **Hyper-V Manager** and r
 
 **Observation:** The available Hyper-V settings allowed me to reorder boot devices but did not offer a way to disable PXE/network boot. Moving a network adapter to the bottom of the list does **not** disable network boot, so I left the setting unchanged rather than claim it was disabled.
 
+![Hyper-V firmware boot order with network adapter last](screenshots/Boot%20Configuration.png)
+
+*Firmware settings: the network adapter is last in the boot order, but network boot is not disabled.*
+
 ### 2. Explore Safe Mode
 
 I used Windows recovery/startup options to enter **Safe Mode**, which loads Windows with a reduced set of drivers and services. I documented the Safe Mode desktop before returning to normal startup.
+
+![Windows 11 virtual machine running in Safe Mode](screenshots/SafeMode.png)
+
+*Windows 11 running in Safe Mode.*
 
 ### 3. Inspect Boot Configuration Data
 
@@ -57,6 +65,10 @@ bcdedit /set {current} systemroot \fakedirectory
 
 I ran `bcdedit` again to verify that `systemroot` showed `\fakedirectory`. After restarting the VM, Windows could not start normally because the boot configuration referenced an invalid system directory.
 
+![BCDEdit Windows Boot Loader with invalid systemroot value](screenshots/fakedirectory.png)
+
+*The Windows Boot Loader entry shows `systemroot` set to `\\fakedirectory`.*
+
 ### 5. Recover Windows
 
 After the startup failure, I accessed Windows recovery tools and corrected the boot configuration, restoring `systemroot` to:
@@ -68,6 +80,10 @@ After the startup failure, I accessed Windows recovery tools and corrected the b
 I verified the corrected value with `bcdedit` and confirmed that the VM could boot normally again.
 
 The lab record includes a screenshot of the corrected BCD entry. This write-up does not assume an exact recovery command beyond what was documented.
+
+![BCDEdit in Windows Recovery Environment with restored systemroot](screenshots/Recovery.png)
+
+*The recovered Windows Boot Loader entry shows `systemroot` restored to `\\Windows`.*
 
 ## Troubleshooting Notes
 
@@ -88,10 +104,6 @@ The lab record includes a screenshot of the corrected BCD entry. This write-up d
 ## Lessons Learned
 
 A small configuration change in the boot process can prevent Windows from loading. Before changing startup settings, it is important to understand what each value controls and have a recovery path available. I also learned to document environmental limitations precisely rather than report a step as completed when the available interface did not support it.
-
-## Screenshots
-
-Selected screenshots from my completed lab will be added here, including firmware settings, Safe Mode, the invalid `systemroot` entry, and the corrected `\Windows` entry.
 
 ---
 
