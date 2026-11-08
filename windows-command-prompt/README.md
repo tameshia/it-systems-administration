@@ -31,7 +31,9 @@ mkdir Backup1
 mkdir Backup2
 dir
 ```
+![Creating Backup1 and Backup2 in the Documents folder](screenshots/01-create-directories.png)
 
+*Created `Backup1` and `Backup2` from Command Prompt and verified both folders with `dir`.*
 **Observation:** An elevated Command Prompt runs with administrator privileges, although basic file operations do not always require elevation.
 
 ### 2. Create and Read a Log File
@@ -44,7 +46,9 @@ type log.txt
 ```
 
 The `>` operator directs output to a file and overwrites existing contents if the file already exists.
+![Creating log.txt with echo and reading it with type](screenshots/02-create-log.png)
 
+*Used `echo` with output redirection to create `log.txt`, then displayed the file contents with `type`.*
 ### 3. Copy and Verify the File
 
 I copied `log.txt` into `Backup2`, then checked the folder contents and displayed the copied text:
@@ -54,7 +58,12 @@ copy log.txt Backup2
 dir Backup2
 type Backup2\log.txt
 ```
+![Copying log.txt into Backup2](screenshots/03-copy-file.png)
+![Verifying the copied file in Backup2](screenshots/04-verify-copy.png)
 
+*Verified that `Backup2\\log.txt` existed and contained the expected text.*
+
+*Copied `log.txt` into the `Backup2` folder and confirmed the copy operation succeeded.*
 Command Prompt reported that one file was copied, and my checks confirmed the file existed and contained the intended text.
 
 ### 4. Troubleshoot Directory Removal
@@ -73,7 +82,9 @@ dir
 ```
 
 After confirming the removal, `dir` showed that `Backup2` had been deleted while `Backup1` remained.
+![Removing Backup2 after the first rmdir attempt failed](screenshots/05-remove-directory.png)
 
+*The first `rmdir Backup2` attempt failed because the directory was not empty, so `rmdir /s Backup2` was used to remove the folder and its contents.*
 **Troubleshooting lesson:** `rmdir /s` removes the target directory and its contents, so the path should be checked carefully before confirming deletion.
 
 ### 5. Examine Network Connections with Netstat
