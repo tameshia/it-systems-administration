@@ -33,7 +33,9 @@ winver.exe
 
 The About Windows dialog displayed the Windows Server 2022 version and the original registered-owner information.
 
-<!-- After screenshots are uploaded, replace this note with: ![Original registered owner shown in About Windows](screenshots/CurrentOwner.png) -->
+![Original registered owner in the Windows Server 2022 About Windows dialog](screenshots/CurrentOwner.png)
+
+*Before the change: `winver.exe` displays the original registered-owner information.*
 
 ### 2. Export the Registry Key
 
@@ -57,7 +59,9 @@ Before changing anything, I right-clicked the `CurrentVersion` key, selected **E
 
 In the `CurrentVersion` key, I located the `RegisteredOwner` value and changed its data. I ran `winver.exe` again and confirmed that the About Windows dialog displayed the modified registered owner.
 
-<!-- After screenshots are uploaded, replace this note with: ![Modified registered owner shown in About Windows](screenshots/ModifiedOwner.png) -->
+![Modified registered owner in the Windows Server 2022 About Windows dialog](screenshots/ModifiedOwner.png)
+
+*After the change: the About Windows dialog displays the updated `RegisteredOwner` value.*
 
 **Observation:** The `RegisteredOwner` Registry value controls the registered-owner text shown in this dialog. Changing it did not change a Windows user account or grant different permissions.
 
@@ -86,7 +90,9 @@ Windows Registry Editor Version 5.00
 
 *The value above is the illustrative text shown in my lab screenshot, not the actual owner information from the exported backup.*
 
-<!-- After screenshots are uploaded, replace this note with: ![Notepad showing Registry export header, path, and RegisteredOwner value](screenshots/RegistryFile.png) -->
+![Notepad showing the Registry file header, key path and RegisteredOwner value](screenshots/RegistryFile.png)
+
+*The Notepad excerpt shows the Registry file version, the `CurrentVersion` key path, and a `RegisteredOwner` value.*
 
 ## Skills Demonstrated
 
@@ -101,10 +107,6 @@ Windows Registry Editor Version 5.00
 ## Lessons Learned
 
 The Windows Registry stores configuration values used by Windows and applications. Editing those settings requires care because incorrect changes can affect system behavior. In this lab, I practiced an orderly workflow: **inspect → back up → modify → verify → restore**. I also learned that a Registry export is a readable text-based representation of keys and values, not just an opaque backup file.
-
-## Screenshots
-
-The screenshots for the original registered owner, modified registered owner, and Notepad Registry-file excerpt will be added in the `screenshots/` folder and displayed alongside their corresponding steps.
 
 ---
 
