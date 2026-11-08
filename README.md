@@ -23,13 +23,13 @@ Each project will include its objective, tools, procedures, troubleshooting obse
 
 **Windows | Command Prompt | netstat | ipconfig | SFC**
 
-Used the command line to create, copy, verify, and remove files and directories, troubleshoot a deletion error, inspect network activity, and start a system-file scan. Screenshots will be added to the case study.
+Used the command line to create, copy, verify, and remove files and directories, troubleshoot a deletion error, inspect network activity, and start a system-file scan. Includes nine screenshots showing file operations, network diagnostics, and the start of a system file scan.
 
 ### [Windows Registry Editor: Backup, Modification, and Restoration](windows-registry-editor/README.md)
 
 **Windows Server 2022 | Registry Editor | winver.exe | Notepad**
 
-Backed up a Registry key, modified and verified the `RegisteredOwner` value, restored the original setting, and examined the contents of a `.reg` file. Screenshots will be added to the case study.
+Backed up a Registry key, modified and verified the `RegisteredOwner` value, restored the original setting, and examined the contents of a `.reg` file. Includes screenshots of the original and modified owner values and Registry file structure.
 
 ### [Windows Startup Troubleshooting and Recovery](windows-startup-recovery/README.md)
 
