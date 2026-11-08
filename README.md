@@ -19,6 +19,12 @@ Each project will include its objective, tools, procedures, troubleshooting obse
 
 ## Projects
 
+### [Windows Command Prompt: File Management, Networking, and System Diagnostics](windows-command-prompt/README.md)
+
+**Windows | Command Prompt | netstat | ipconfig | SFC**
+
+Used the command line to create, copy, verify, and remove files and directories, troubleshoot a deletion error, inspect network activity, and start a system-file scan. Screenshots will be added to the case study.
+
 ### [Windows Registry Editor: Backup, Modification, and Restoration](windows-registry-editor/README.md)
 
 **Windows Server 2022 | Registry Editor | winver.exe | Notepad**
