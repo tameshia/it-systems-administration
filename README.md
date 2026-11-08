@@ -19,9 +19,11 @@ Each project will include its objective, tools, procedures, troubleshooting obse
 
 ## Projects
 
-### Windows Startup Troubleshooting and Recovery
+### [Windows Startup Troubleshooting and Recovery](windows-startup-recovery/README.md)
 
-Documentation in progress. This lab explores Windows recovery tools, Safe Mode, boot configuration, and troubleshooting startup failures.
+**Windows 11 | Hyper-V | WinRE | BCDEdit**
+
+Investigated Windows startup settings, intentionally simulated a boot failure in a virtual machine, and successfully restored normal startup. Includes screenshots, troubleshooting observations, and lessons learned.
 
 ## About Me
 
