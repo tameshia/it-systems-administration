@@ -1,12 +1,12 @@
-# Windows Local Security Policy: Step-by-Step Configuration and Security Auditing
+# Windows Local Security Policy: Configuration, Testing, and Security Auditing
 
 ## Project Overview
 
 This lab explores how Windows local security settings affect account access, shutdown permissions, interactive sign-in messages, and security auditing. I configured the policies in a **Windows 10 training virtual machine**, tested their effects, and investigated the resulting events in **Event Viewer**.
 
-This page is both a record of my completed exercise and a **repeatable study walkthrough**: each section explains **what to do**, **why it matters**, **what to check**, and where the corresponding screenshot belongs.
+This project documents a hands-on Windows security administration lab, including configuration, testing, Event Viewer evidence, troubleshooting, and lessons learned. Each section explains what was configured, why it matters, and how the result was verified.
 
-> **Lab-only warning:** These settings restrict sign-in and shutdown rights and generate audit records. Use a disposable training VM, keep access to an administrator account, and do not apply these examples to a production or shared computer. The simple practice passwords specified in the course handout are not suitable for real systems.
+> **Lab-only warning:** These settings restrict sign-in and shutdown rights and generate audit records. Use a disposable training VM, keep access to an administrator account, and do not apply these examples to a production or shared computer. Use unique, strong passwords for test accounts; never reuse lab credentials on real systems.
 
 **Tools:** Computer Management (`compmgmt.msc`), Local Users and Groups (`lusrmgr.msc`), Local Security Policy (`secpol.msc`), File Properties, Event Viewer (`eventvwr.msc`)  
 **Topics:** Local accounts, Users group, user rights, logon banners, advanced audit policy, file auditing, security events 4663 / 4647 / 4625
@@ -35,12 +35,12 @@ This page is both a record of my completed exercise and a **repeatable study wal
 1. Right-click **Users → New User**.
 2. Create a practice account named `secpol`.
 3. Create a second practice account named `secpol2`.
-4. Use the password requirements given by your lab instructor; **do not use these weak sample credentials outside the training VM**.
+4. Use unique passwords for the test accounts; do not reuse them outside this lab.
 5. Close the **New User** dialog.
 
 **What to check:** Both accounts appear under **Local Users and Groups → Users**.
 
-### Step 3. Inspect group membership — course Step 7
+### Step 3. Inspect group membership
 
 1. Double-click `secpol` or `secpol2`.
 2. Select the **Member Of** tab.
@@ -48,7 +48,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Why this matters:** Membership in **Users** provides the account with standard-user access. Membership is not the same as being an administrator and does not override explicit **Deny** user-rights assignments.
 
-**📸 Screenshot 1 — Creating User Accounts, Step 7:** The account's **Member Of** tab.
+**📸 Screenshot 1:** The account's **Member Of** tab.
 
 ![secpol local Users group membership](screenshots/01-local-user-membership.webp)
 
@@ -73,7 +73,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Why this matters:** An explicit **Deny** right takes precedence over a corresponding Allow right. This is useful to understand when investigating unexpected access failures.
 
-### Step 6. Restrict shutdown rights — course Step 15
+### Step 6. Restrict shutdown rights
 
 1. Still in **User Rights Assignment**, open **Shut down the system**.
 2. Select the **Users** group and choose **Remove**.
@@ -81,13 +81,13 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Expected behavior:** A standard member of Users without another qualifying right should no longer have permission to shut down the computer locally. Accounts with other eligible group membership may behave differently.
 
-**📸 Screenshot 2 — Configuring Policy, Step 15:** **Shut down the system** after removing **Users**.
+**📸 Screenshot 2:** **Shut down the system** after removing **Users**.
 
 **Study note:** Group membership grants some capabilities; a user-rights assignment determines which accounts and groups may perform a specific privileged action.
 
 ![Shutdown rights restricted to Administrators and Backup Operators](screenshots/05-shutdown-after.webp)
 
-### Step 7. Create an interactive logon warning — course Step 20
+### Step 7. Create an interactive logon warning
 
 1. Navigate to **Security Settings → Local Policies → Security Options**.
 2. Open **Interactive logon: Message text for users attempting to log on**.
@@ -97,7 +97,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Expected behavior:** The configured title and message appear before the sign-in process continues.
 
-**📸 Screenshot 3 — Configuring Policy, Step 20:** Interactive logon message/title configuration. The image below documents the configured title; the matching message was `You are being monitored`.
+**📸 Screenshot 3:** Interactive logon message/title configuration. The image below documents the configured title; the matching message was `You are being monitored`.
 
 **Why this matters:** Logon notices communicate usage expectations. A banner is not itself an access-control mechanism; the sign-in rights and authentication policies enforce access restrictions.
 
@@ -114,14 +114,14 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Why this matters:** Auditing produces evidence that can help explain when and how a sign-in-related event occurred. The presence of a policy does not mean *every* expected event is guaranteed to appear in a particular filtered view.
 
-### Step 9. Enable file-system auditing — course Step 28
+### Step 9. Enable file-system auditing
 
 1. In **Advanced Audit Policy Configuration**, expand **Object Access**.
 2. Open **Audit File System**.
 3. Select **Configure the following audit events**.
 4. Enable **Success** and **Failure**, then apply the change.
 
-**📸 Screenshot 4 — Configuring Policy, Step 28:** **Audit File System** with both Success and Failure selected.
+**📸 Screenshot 4:** **Audit File System** with both Success and Failure selected.
 
 **Important:** This setting enables the *category* of file-system auditing. To record access to a specific file, you also need an **auditing entry** for that file or folder (configured in Part 3).
 
@@ -129,13 +129,13 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 ## Part 3 — Testing the Security Policies
 
-### Step 10. Verify the interactive logon warning — course Step 2
+### Step 10. Verify the interactive logon warning
 
 1. Sign out of the administrator session.
 2. Observe the logon message displayed by Windows.
 3. Confirm that the title is **WARNING** and the message is **You are being monitored**.
 
-**📸 Screenshot 5 — Testing Policies, Step 2:** Warning displayed before sign-in.
+**📸 Screenshot 5:** Warning displayed before sign-in.
 
 **What this tests:** The interactive logon message and title were applied to the training machine.
 
@@ -148,7 +148,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 3. Attempt to shut down Windows through the Start menu.
 4. Sign out and return to the administrator account.
 
-**Expected from the course exercise:** `secpol2` is prevented from local sign-in, while `secpol` can sign in but does not have the usual shutdown option after the Users shutdown right was removed.
+**Expected result:** `secpol2` is prevented from local sign-in, while `secpol` can sign in but does not have the usual shutdown option after the Users shutdown right was removed.
 
 **Troubleshooting concept:** Verify the effective behavior rather than assuming the policy worked solely because a dialog accepted the configuration.
 
@@ -168,7 +168,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Why this matters:** A file's auditing entries (its **System Access Control List**, or SACL) define whose access attempts should be logged and which types of file access matter.
 
-### Step 14. Configure the file's auditing entry — course Step 15
+### Step 14. Configure the file's auditing entry
 
 1. From **Advanced Security Settings → Auditing**, select **Add**.
 2. Choose **Select a principal**.
@@ -177,7 +177,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 5. Under basic permissions, select **Read & execute**, **Read**, and **Write**.
 6. Save the auditing entry and close the relevant dialogs.
 
-**📸 Screenshot 6 — Testing Policies, Step 15:** Auditing entry for `secpoltest.txt` showing principal, type, and selected access.
+**📸 Screenshot 6:** Auditing entry for `secpoltest.txt` showing principal, type, and selected access.
 
 **Concept:** The principal **Everyone** is deliberately broad for this demonstration. In production, audit settings should be scoped to the required accounts and access types to limit unnecessary audit noise.
 
@@ -192,14 +192,14 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **What this tests:** The file access should generate an eligible security event if the audit policy and file-level auditing entry are both applied.
 
-### Step 16. Find the file-access audit event — course Step 23
+### Step 16. Find the file-access audit event
 
 1. In **Windows Logs → Security**, select **Filter Current Log…**.
 2. Enter Event ID `4663`.
 3. Locate the event relating to `secpoltest.txt`.
 4. Open its details and examine the account, object name, process name, access type, and time.
 
-**📸 Screenshot 7 — Testing Policies, Step 23:** Actual **4663** record showing file access.
+**📸 Screenshot 73:** Actual **4663** record showing file access.
 
 **Observed in this completed lab:** The event related to `secpoltest.txt`, **Tameshia**, `notepad.exe`, **WriteData/AppendData**, access mask `0x6`, and time **1:21:52 PM**.
 
@@ -250,21 +250,21 @@ We also looked for **Event 4634** (*an account was logged off*) corresponding to
 | **4625** | An account failed to log on | Incorrect password, Logon Type 2, status/substatus |
 | **4634** | An account was logged off | Searched for a matching session; no match located |
 
-## Screenshot Evidence — Coursework and Extended Investigation
+## Screenshot Evidence
 
-All **seven coursework screenshot categories** are represented above by images captured in my Windows 10 lab. I also captured extra evidence beyond the assignment to document policy verification, audit interpretation, and troubleshooting.
+The screenshots below document key configurations and observed results from the Windows 10 virtual machine. Additional screenshots capture troubleshooting and Event Viewer analysis beyond the initial policy configuration.
 
-| Evidence | Assignment step | Screenshot |
-| --- | --- | --- |
-| Standard user group membership | Part 1, Step 7 | [Account membership](screenshots/01-local-user-membership.webp) |
-| Shutdown right after removing Users | Part 2, Step 15 | [Shutdown right](screenshots/05-shutdown-after.webp) |
-| Interactive logon title configuration | Part 2, Step 20 | [WARNING title](screenshots/06-logon-title.webp) |
-| Audit File System, Success and Failure | Part 2, Step 28 | [Audit policy](screenshots/09-audit-file-system.webp) |
-| Warning at sign-in | Part 3, Step 2 | [Logon warning](screenshots/10-logon-warning-test.webp) |
-| File-specific auditing entry | Part 3, Step 15 | [Auditing entry](screenshots/13-file-auditing-rule.webp) |
-| File modification, Event 4663 | Part 3, Step 23 | [Notepad WriteData event](screenshots/15-notepad-write-4663.webp) |
+| Configuration or test | Evidence |
+| --- | --- |
+| Standard user group membership | [Account membership](screenshots/01-local-user-membership.webp) |
+| Shutdown right after removing Users | [Shutdown right](screenshots/05-shutdown-after.webp) |
+| Interactive logon warning title | [WARNING title](screenshots/06-logon-title.webp) |
+| File-system audit policy | [Audit policy](screenshots/09-audit-file-system.webp) |
+| Warning displayed at sign-in | [Logon warning](screenshots/10-logon-warning-test.webp) |
+| File-specific auditing entry | [Auditing entry](screenshots/13-file-auditing-rule.webp) |
+| Notepad file modification recorded as Event 4663 | [WriteData audit event](screenshots/15-notepad-write-4663.webp) |
 
-### Additional observations beyond the required screenshots
+### Additional testing and investigation
 
 **Deny log on locally — specific account, not the entire Users group.** I added `secpol2` to **Deny log on locally**. This is different from disabling the account entirely; the restriction blocks that particular logon method.
 
@@ -326,4 +326,4 @@ I practiced distinguishing **group membership** from **user rights**, and **audi
 
 [← Back to IT Systems Administration Labs](../README.md)
 
-*Coursework: Cyber Skills Lab 2 — Local Security Policy. Lab instructions are paraphrased for study; screenshots and event observations are from the completed Windows 10 training exercise.*
+*All screenshots and event observations are from my Windows 10 lab environment. Security settings were tested on a dedicated virtual machine, not a production system.*
