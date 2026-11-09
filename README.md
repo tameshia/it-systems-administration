@@ -23,7 +23,7 @@ Each project will include its objective, tools, procedures, troubleshooting obse
 
 **Windows 10 | Local Security Policy | User Rights | Event Viewer**
 
-Configured and tested local security controls in a training VM, including user rights, interactive logon messaging, and file-system auditing. Reviewed observed Security events **4663**, **4647**, and **4625**, documenting event details and logon-session correlation. Seven assignment screenshots are pending addition to the repository.
+Configured and tested local security controls in a training VM, including user rights, interactive logon messaging, and file-system auditing. Reviewed Security events **4663**, **4647**, **4634**, and **4625**, documenting confirmed observations and an unconfirmed logon-session correlation. Includes 15 screenshot files covering configuration, policy tests, and security-event investigation.
 
 ### [Windows Command Prompt: File Management, Networking, and System Diagnostics](windows-command-prompt/README.md)
 
