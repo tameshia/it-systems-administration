@@ -214,4 +214,6 @@ The unsuccessful `rmdir` command was a useful troubleshooting example: the error
 
 ---
 
+[← Back to IT Systems Administration Labs](../README.md)
+
 *Documented from a completed Windows Command Prompt lab for IT120 A+ Core 2. Screenshots show the commands and observations recorded during the exercise.*
