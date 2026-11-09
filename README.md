@@ -19,6 +19,12 @@ Each project will include its objective, tools, procedures, troubleshooting obse
 
 ## Projects
 
+### [Windows Local Security Policy: User Rights and Security Auditing](windows-local-security-policy/README.md)
+
+**Windows 10 | Local Security Policy | User Rights | Event Viewer**
+
+Configured and tested local security controls in a training VM, including user rights, interactive logon messaging, and file-system auditing. Reviewed observed Security events **4663**, **4647**, and **4625**, documenting event details and logon-session correlation. Seven assignment screenshots are pending addition to the repository.
+
 ### [Windows Command Prompt: File Management, Networking, and System Diagnostics](windows-command-prompt/README.md)
 
 **Windows | Command Prompt | netstat | ipconfig | SFC**
