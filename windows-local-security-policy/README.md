@@ -338,6 +338,10 @@ This lab followed a repeatable systems administration workflow:
 
 I practiced distinguishing **group membership** from **user rights**, and **audit policy** from **file-specific auditing rules**. The Event Viewer investigation reinforced that an event's **account, Logon ID, process, and status details** are essential for interpreting what actually happened.
 
+## Related Technical Write-Up
+
+[Implementing and Validating Windows Local Security Policies](https://github.com/tameshia/technical-writeups/blob/main/windows-local-security-policy.md) summarizes the configuration, validation results, and limits of event correlation. This lab retains the full procedure and 15 screenshot files.
+
 ---
 
 [← Back to IT Systems Administration Labs](../README.md)
