@@ -50,7 +50,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **📸 Screenshot 1 — Creating User Accounts, Step 7:** The account's **Member Of** tab.
 
-*Screenshot awaiting upload. Insert the actual, reviewed lab image here; the README intentionally has no broken image link.*
+![secpol local Users group membership](screenshots/01-local-user-membership.webp)
 
 ## Part 2 — Configuring a Local Security Policy
 
@@ -85,7 +85,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Study note:** Group membership grants some capabilities; a user-rights assignment determines which accounts and groups may perform a specific privileged action.
 
-*Screenshot awaiting upload.*
+![Shutdown rights restricted to Administrators and Backup Operators](screenshots/05-shutdown-after.webp)
 
 ### Step 7. Create an interactive logon warning — course Step 20
 
@@ -97,11 +97,11 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Expected behavior:** The configured title and message appear before the sign-in process continues.
 
-**📸 Screenshot 3 — Configuring Policy, Step 20:** Interactive logon message/title configuration.
+**📸 Screenshot 3 — Configuring Policy, Step 20:** Interactive logon message/title configuration. The image below documents the configured title; the matching message was `You are being monitored`.
 
 **Why this matters:** Logon notices communicate usage expectations. A banner is not itself an access-control mechanism; the sign-in rights and authentication policies enforce access restrictions.
 
-*Screenshot awaiting upload.*
+![Interactive logon title WARNING configured](screenshots/06-logon-title.webp)
 
 ### Step 8. Enable advanced logon/logoff auditing
 
@@ -125,7 +125,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Important:** This setting enables the *category* of file-system auditing. To record access to a specific file, you also need an **auditing entry** for that file or folder (configured in Part 3).
 
-*Screenshot awaiting upload.*
+![Audit File System success and failure configured](screenshots/09-audit-file-system.webp)
 
 ## Part 3 — Testing the Security Policies
 
@@ -139,7 +139,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **What this tests:** The interactive logon message and title were applied to the training machine.
 
-*Screenshot awaiting upload.*
+![Windows pre-logon WARNING and monitoring message](screenshots/10-logon-warning-test.webp)
 
 ### Step 11. Test sign-in and shutdown rights
 
@@ -181,7 +181,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Concept:** The principal **Everyone** is deliberately broad for this demonstration. In production, audit settings should be scoped to the required accounts and access types to limit unnecessary audit noise.
 
-*Screenshot awaiting upload.*
+![File SACL auditing entry for Everyone, All, Read and Write](screenshots/13-file-auditing-rule.webp)
 
 ### Step 15. Generate file activity
 
@@ -205,7 +205,7 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Why this matters:** Event 4663 identifies an attempt to access an object. Details such as **Object Name**, **Process Name**, and **Accesses** help determine the activity instead of inferring it from the event ID alone.
 
-*Screenshot awaiting upload.*
+![Event 4663 for secpoltest.txt modified in Notepad](screenshots/15-notepad-write-4663.webp)
 
 ### Step 17. Find the user-initiated logoff event
 
@@ -213,7 +213,9 @@ This page is both a record of my completed exercise and a **repeatable study wal
 2. Filter for Event ID `4647`.
 3. Examine the **Subject** account and **Logon ID**.
 
-**Observed in this completed lab:** A **4647** event showed user **secpol** initiating logoff at **11:56:41 AM** with Logon ID `0x1914C84`.
+**Observed in this completed lab:** A **4647** event showed user **secpol** initiating logoff at **11:56:41 AM** with Logon ID `0x1914C84`. A later repeated test at **12:42:12 PM** also showed `secpol` initiating logoff.
+
+![Event 4647 secpol user-initiated logoff](screenshots/12-logoff-4647.webp)
 
 **Study point:** Event **4647** records a user-initiated logoff. It is useful for understanding an intentional end to an interactive session.
 
@@ -225,6 +227,8 @@ This page is both a record of my completed exercise and a **repeatable study wal
 
 **Observed in this completed lab:** An **Audit Failure** at **12:42:28 PM** for **Tameshia**, **Logon Type 2** (interactive), status `0xC000006D`, substatus `0xC000006A` (incorrect password).
 
+![Event 4625 interactive failed logon and incorrect-password substatus](screenshots/17-failed-logon-4625.webp)
+
 **Why this matters:** Event 4625 tells you authentication failed; the **substatus** explains the specific cause. A **Logon Type 2** record indicates an interactive sign-in attempt rather than a network sign-in.
 
 ### Step 19. Investigate a related logoff event
@@ -232,6 +236,8 @@ This page is both a record of my completed exercise and a **repeatable study wal
 We also looked for **Event 4634** (*an account was logged off*) corresponding to the **4647** user-initiated logoff.
 
 **Troubleshooting result:** A matching 4634 was **not found in the events reviewed**. Other nearby events involving `UMFD` or `DWM` were not treated as matches because their logon identifiers differed.
+
+![Event 4634 for UMFD system component, not a proven secpol match](screenshots/18-unmatched-4634-umfd.webp)
 
 **Lesson:** Do not correlate Windows events using timestamps alone. Compare **Logon ID**, account, event type, and session context.
 
@@ -244,21 +250,46 @@ We also looked for **Event 4634** (*an account was logged off*) corresponding to
 | **4625** | An account failed to log on | Incorrect password, Logon Type 2, status/substatus |
 | **4634** | An account was logged off | Searched for a matching session; no match located |
 
-## Screenshot Checklist
+## Screenshot Evidence — Coursework and Extended Investigation
 
-The seven required screenshots were captured for the coursework submission, but **the original image files are not yet stored in this GitHub project**. These are placeholders only; instructor-example images have not been presented as my own work.
+All **seven coursework screenshot categories** are represented above by images captured in my Windows 10 lab. I also captured extra evidence beyond the assignment to document policy verification, audit interpretation, and troubleshooting.
 
-| Evidence | Assignment step | GitHub image status |
+| Evidence | Assignment step | Screenshot |
 | --- | --- | --- |
-| Account group membership | Part 1, Step 7 | Awaiting upload |
-| Shutdown user right | Part 2, Step 15 | Awaiting upload |
-| Logon warning configuration | Part 2, Step 20 | Awaiting upload |
-| Audit File System configuration | Part 2, Step 28 | Awaiting upload |
-| Warning at sign-in | Part 3, Step 2 | Awaiting upload |
-| File auditing entry | Part 3, Step 15 | Awaiting upload |
-| Event 4663 file access | Part 3, Step 23 | Awaiting upload |
+| Standard user group membership | Part 1, Step 7 | [Account membership](screenshots/01-local-user-membership.webp) |
+| Shutdown right after removing Users | Part 2, Step 15 | [Shutdown right](screenshots/05-shutdown-after.webp) |
+| Interactive logon title configuration | Part 2, Step 20 | [WARNING title](screenshots/06-logon-title.webp) |
+| Audit File System, Success and Failure | Part 2, Step 28 | [Audit policy](screenshots/09-audit-file-system.webp) |
+| Warning at sign-in | Part 3, Step 2 | [Logon warning](screenshots/10-logon-warning-test.webp) |
+| File-specific auditing entry | Part 3, Step 15 | [Auditing entry](screenshots/13-file-auditing-rule.webp) |
+| File modification, Event 4663 | Part 3, Step 23 | [Notepad WriteData event](screenshots/15-notepad-write-4663.webp) |
 
-Once the files are uploaded and reviewed, insert them beside each walkthrough step, like the screenshot-illustrated labs elsewhere in this portfolio. Remove or redact account identifiers, internal hostnames, and other sensitive details before publishing.
+### Additional observations beyond the required screenshots
+
+**Deny log on locally — specific account, not the entire Users group.** I added `secpol2` to **Deny log on locally**. This is different from disabling the account entirely; the restriction blocks that particular logon method.
+
+![Deny log on locally with secpol2 added](screenshots/03-deny-logon-after.webp)
+
+**Shutdown behavior — testing effective rights.** After removing **Users** from **Shut down the system**, I signed in as the standard user `secpol` and observed **“There are currently no power options available.”** This validated the effect of the policy on the tested account.
+
+![secpol Start menu showing no available power options](screenshots/11-shutdown-restriction-test.webp)
+
+**Auditing logoff, failed logon, and file access.** I enabled successful logoff auditing, failed logon auditing, and both success and failure for file-system auditing. The file-specific SACL is necessary to generate relevant 4663 records; enabling the policy alone does not mean every file access is logged.
+
+| Policy evidence | Screenshot |
+| --- | --- |
+| Audit Logoff — Success | [Configuration](screenshots/07-audit-logoff-success.webp) |
+| Audit Logon — Failure | [Configuration](screenshots/08-audit-logon-failure.webp) |
+
+**Unexpected file-access events — investigating process names.** Filtering for 4663 also showed a background process accessing `secpoltest.txt`. A 4663 record alone does not prove malicious behavior. I compared **Account Name**, **Object Name**, **Process Name**, and **Accesses** to distinguish background reading from my deliberate Notepad write.
+
+![Background file read recorded as Event 4663](screenshots/16-background-read-4663.webp)
+
+**Event correlation — 4647 versus 4634.** I found `secpol` in 4647 but did not find a corresponding 4634 with the same session identifier in the events reviewed. I did not assume that a nearby UMFD/DWM 4634 belonged to the same session simply because the timestamps were close.
+
+**Investigating repeated failures.** A single 4625 with substatus `0xC000006A` indicates an incorrect password, not automatically an attack. If I encountered 25 failures within one minute from the same external IP, I would investigate source information, account status, failure reasons, patterns across accounts, and any subsequent successful logons before concluding whether brute force was involved. The lab's `127.0.0.1` source address refers to loopback, not a separate remote source.
+
+**Memory aid:** **DACL = Decisions about access; SACL = Surveillance of access.** The DACL controls access permissions, while the SACL specifies which qualifying access attempts should be audited.
 
 ## Review Questions
 
@@ -295,4 +326,4 @@ I practiced distinguishing **group membership** from **user rights**, and **audi
 
 [← Back to IT Systems Administration Labs](../README.md)
 
-*Coursework: Cyber Skills Lab 2 — Local Security Policy. Lab instructions are paraphrased for study; recorded event observations are from the completed exercise. Screenshots will be embedded when the original evidence files are available.*
+*Coursework: Cyber Skills Lab 2 — Local Security Policy. Lab instructions are paraphrased for study; screenshots and event observations are from the completed Windows 10 training exercise.*
