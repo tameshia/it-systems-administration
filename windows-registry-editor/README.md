@@ -110,4 +110,6 @@ The Windows Registry stores configuration values used by Windows and application
 
 ---
 
+[← Back to IT Systems Administration Labs](../README.md)
+
 *This project documents a completed IT120 A+ Core 2 coursework lab using Windows Server 2022. The write-up is organized as a technical portfolio case study.*
