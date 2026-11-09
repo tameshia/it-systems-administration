@@ -107,4 +107,6 @@ A small configuration change in the boot process can prevent Windows from loadin
 
 ---
 
+[← Back to IT Systems Administration Labs](../README.md)
+
 *Training project completed in a Windows 11 virtual-machine environment. Documentation is written in my own words from my lab observations.*
