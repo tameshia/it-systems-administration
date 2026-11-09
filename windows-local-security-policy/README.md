@@ -252,106 +252,58 @@ We also looked for **Event 4634** (*an account was logged off*) corresponding to
 
 ## Screenshot Evidence
 
-**15 screenshots · 4 investigation areas · Windows 10 lab VM**
+These screenshots document the Windows 10 lab configurations, policy tests, and security event investigations. Select any blue screenshot link to view the original image.
 
-Browse the clickable thumbnails below to inspect the original evidence. The detailed technical observations are tucked into expandable notes beneath the gallery, keeping this page easy to scan while retaining a useful study reference.
-
-### Account access & user rights
-
-<table>
-<tr>
-<td align="center" width="33%"><a href="screenshots/01-local-user-membership.webp"><img src="screenshots/01-local-user-membership.webp" alt="Users group membership" width="230"></a><br><strong>Users group membership</strong></td>
-<td align="center" width="33%"><a href="screenshots/03-deny-logon-after.webp"><img src="screenshots/03-deny-logon-after.webp" alt="Deny local logon" width="230"></a><br><strong>Deny local logon</strong></td>
-<td align="center" width="33%"><a href="screenshots/05-shutdown-after.webp"><img src="screenshots/05-shutdown-after.webp" alt="Shutdown user right" width="230"></a><br><strong>Shutdown user right</strong></td>
-</tr>
-<tr>
-<td align="center" width="33%"><a href="screenshots/11-shutdown-restriction-test.webp"><img src="screenshots/11-shutdown-restriction-test.webp" alt="Shutdown test" width="230"></a><br><strong>Shutdown test</strong></td>
-</tr>
-</table>
-
-### Logon warning
-
-<table>
-<tr>
-<td align="center" width="33%"><a href="screenshots/06-logon-title.webp"><img src="screenshots/06-logon-title.webp" alt="Warning configuration" width="230"></a><br><strong>Warning configuration</strong></td>
-<td align="center" width="33%"><a href="screenshots/10-logon-warning-test.webp"><img src="screenshots/10-logon-warning-test.webp" alt="Warning displayed" width="230"></a><br><strong>Warning displayed</strong></td>
-</tr>
-</table>
-
-### Audit configuration
-
-<table>
-<tr>
-<td align="center" width="33%"><a href="screenshots/07-audit-logoff-success.webp"><img src="screenshots/07-audit-logoff-success.webp" alt="Audit Logoff: Success" width="230"></a><br><strong>Audit Logoff: Success</strong></td>
-<td align="center" width="33%"><a href="screenshots/08-audit-logon-failure.webp"><img src="screenshots/08-audit-logon-failure.webp" alt="Audit Logon: Failure" width="230"></a><br><strong>Audit Logon: Failure</strong></td>
-<td align="center" width="33%"><a href="screenshots/09-audit-file-system.webp"><img src="screenshots/09-audit-file-system.webp" alt="Audit File System" width="230"></a><br><strong>Audit File System</strong></td>
-</tr>
-<tr>
-<td align="center" width="33%"><a href="screenshots/13-file-auditing-rule.webp"><img src="screenshots/13-file-auditing-rule.webp" alt="File auditing (SACL)" width="230"></a><br><strong>File auditing (SACL)</strong></td>
-</tr>
-</table>
-
-### Event Viewer investigation
-
-<table>
-<tr>
-<td align="center" width="33%"><a href="screenshots/15-notepad-write-4663.webp"><img src="screenshots/15-notepad-write-4663.webp" alt="4663: Notepad write" width="230"></a><br><strong>4663: Notepad write</strong></td>
-<td align="center" width="33%"><a href="screenshots/16-background-read-4663.webp"><img src="screenshots/16-background-read-4663.webp" alt="4663: Background read" width="230"></a><br><strong>4663: Background read</strong></td>
-<td align="center" width="33%"><a href="screenshots/12-logoff-4647.webp"><img src="screenshots/12-logoff-4647.webp" alt="4647: User logoff" width="230"></a><br><strong>4647: User logoff</strong></td>
-</tr>
-<tr>
-<td align="center" width="33%"><a href="screenshots/18-unmatched-4634-umfd.webp"><img src="screenshots/18-unmatched-4634-umfd.webp" alt="4634: Different session" width="230"></a><br><strong>4634: Different session</strong></td>
-<td align="center" width="33%"><a href="screenshots/17-failed-logon-4625.webp"><img src="screenshots/17-failed-logon-4625.webp" alt="4625: Failed sign-in" width="230"></a><br><strong>4625: Failed sign-in</strong></td>
-</tr>
-</table>
-
-### Technical notes and observations
-
-<details>
-<summary><strong>Account access and shutdown restrictions</strong></summary>
-
-- **Local group membership:** The `secpol` test account belonged to the standard **Users** group. Group membership is distinct from specific user-rights assignments.
-- **Deny log on locally:** I added `secpol2` to the deny policy. This blocks interactive local sign-in; it does not disable the account outright.
-- **Shut down the system:** I removed **Users**, leaving **Administrators** and **Backup Operators** listed in the policy.
-- **Observed behavior:** After signing in as `secpol`, Windows displayed **“There are currently no power options available.”** Testing the actual behavior helped verify the configuration.
-
-</details>
-
-<details>
-<summary><strong>Interactive logon warning</strong></summary>
-
-- **Configured title:** `WARNING`
-- **Configured message:** `You are being monitored`
-- **Validation:** The warning appeared at sign-in. A warning banner communicates usage expectations but does not itself enforce access control.
-
-</details>
-
-<details>
-<summary><strong>Audit policy and file-specific SACL</strong></summary>
-
-- **Audit Logoff:** Success enabled.
-- **Audit Logon:** Failure enabled.
-- **Audit File System:** Success and Failure enabled.
-- **File-level auditing:** On `secpoltest.txt`, I configured a SACL entry for **Everyone**, type **All**, with **Read & execute**, **Read**, and **Write**.
-- **Key distinction:** The audit policy enables the relevant audit category; the file's SACL selects qualifying accesses to that object. A **DACL** controls access permissions, whereas a **SACL** specifies what access should be audited.
-- **Scope:** Broad auditing of Everyone was appropriate for this disposable lab VM, not a recommended production default.
-
-</details>
-
-<details>
-<summary><strong>Event Viewer investigation: 4663, 4647, 4634 and 4625</strong></summary>
-
-| Event | What I observed | Interpretation |
+| Evidence | What it demonstrates | Screenshot |
 | --- | --- | --- |
-| **4663 — Notepad write** | `secpoltest.txt`, `notepad.exe`, **WriteData/AppendData**, access mask `0x6` | Evidence of the deliberate file edit and save |
-| **4663 — background read** | A background process accessed the same file with read access | Compare process name and access type before interpreting activity |
-| **4647 — user logoff** | `secpol` initiated a logoff | Use the Logon ID to investigate related session events |
-| **4634 — different session** | A nearby event involved a Windows component; no matching `secpol` Logon ID was confirmed in the events reviewed | Nearby timestamps alone are insufficient to correlate events |
-| **4625 — failed logon** | Logon Type `2`, status `0xC000006D`, substatus `0xC000006A` | Interactive sign-in failed due to an incorrect password |
+| **Account configuration** | Standard-user group membership | [Account membership](screenshots/01-local-user-membership.webp) |
+| **Deny local logon** | `secpol2` added to the deny policy | [Deny logon policy](screenshots/03-deny-logon-after.webp) |
+| **Shutdown permissions** | Users group removed from shutdown rights | [Shutdown right](screenshots/05-shutdown-after.webp) |
+| **Shutdown test** | Standard account cannot access power options | [Restriction test](screenshots/11-shutdown-restriction-test.webp) |
+| **Logon warning** | Interactive logon title configured | [WARNING title](screenshots/06-logon-title.webp) |
+| **Warning test** | Logon notice displayed before sign-in | [Logon warning](screenshots/10-logon-warning-test.webp) |
+| **Audit Logoff** | Success auditing enabled | [Logoff audit policy](screenshots/07-audit-logoff-success.webp) |
+| **Audit Logon** | Failure auditing enabled | [Logon audit policy](screenshots/08-audit-logon-failure.webp) |
+| **Audit File System** | Success and Failure auditing enabled | [File system policy](screenshots/09-audit-file-system.webp) |
+| **File-specific auditing** | Auditing entry (SACL) on `secpoltest.txt` | [Auditing entry](screenshots/13-file-auditing-rule.webp) |
+| **Event 4663** | Notepad writing to the audited file | [Notepad WriteData event](screenshots/15-notepad-write-4663.webp) |
+| **Event 4663** | Background process reading the same file | [Background read event](screenshots/16-background-read-4663.webp) |
+| **Event 4647** | `secpol` user-initiated logoff | [User logoff event](screenshots/12-logoff-4647.webp) |
+| **Event 4634** | Nearby logoff event from a different session | [Session investigation](screenshots/18-unmatched-4634-umfd.webp) |
+| **Event 4625** | Failed interactive sign-in and incorrect-password substatus | [Failed logon event](screenshots/17-failed-logon-4625.webp) |
 
-The failed-logon record included `127.0.0.1`, a loopback address. That does not identify a separate remote attacker. A single 4625 is not proof of brute force; repeated failures would justify checking source, frequency, targeted accounts, status codes, and subsequent successful logons.
+### Investigation Notes
 
-**Investigation lesson:** I interpreted each record using its account, process, object, access type, status, and session identifiers rather than relying only on the event number.
+<details>
+<summary><strong>Account rights and policy validation</strong></summary>
+
+- `secpol` belonged to the standard **Users** group. Group membership and specific user-rights assignments serve different purposes.
+- I added `secpol2` to **Deny log on locally**, restricting interactive local sign-in without disabling the account.
+- I removed **Users** from **Shut down the system**. Signing in as `secpol` showed **“There are currently no power options available.”**
+- The interactive logon title was `WARNING` and its message was `You are being monitored`. The banner appeared at sign-in; it communicates expectations rather than enforcing access control.
+
+</details>
+
+<details>
+<summary><strong>Auditing configuration and SACL</strong></summary>
+
+- Enabled **Audit Logoff — Success**, **Audit Logon — Failure**, and **Audit File System — Success and Failure**.
+- On `secpoltest.txt`, configured an auditing entry for **Everyone**, type **All**, with **Read & execute**, **Read**, and **Write**.
+- The system audit policy enables the category, while the file-specific **SACL** selects qualifying file access to record. A **DACL** determines access permissions.
+- The broad Everyone auditing rule was used only in the disposable lab VM.
+
+</details>
+
+<details>
+<summary><strong>Event Viewer analysis: 4663, 4647, 4634, 4625</strong></summary>
+
+- **4663 — deliberate write:** `notepad.exe` accessed `secpoltest.txt` using **WriteData/AppendData**, access mask `0x6`.
+- **4663 — background read:** A separate event showed background access to the same file. Comparing **Process Name**, **Object Name**, and **Accesses** distinguished the activities.
+- **4647 — user-initiated logoff:** A `secpol` event provided a Logon ID to investigate.
+- **4634 — logoff:** I did not confirm a matching `secpol` 4634 in the reviewed records. Nearby Windows component sessions must not be correlated using timestamps alone.
+- **4625 — failed logon:** Logon Type `2`, status `0xC000006D`, and substatus `0xC000006A` indicated an incorrect password. Source `127.0.0.1` was loopback; a single failed sign-in is not proof of brute force.
+
+**Takeaway:** I used account, process, access type, status, and session identifiers to interpret evidence rather than relying on event numbers alone.
 
 </details>
 
