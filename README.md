@@ -19,6 +19,12 @@ Each project will include its objective, tools, procedures, troubleshooting obse
 
 ## Projects
 
+### [Windows DiskPart Management: GPT Partitioning and NTFS Formatting](windows-diskpart-management/README.md)
+
+**Windows 11 | Hyper-V | DiskPart | GPT | NTFS**
+
+Verified a disposable virtual disk, cleaned and converted it to GPT, created and formatted a primary partition, and validated the assigned E: volume. Includes 13 screenshots, wrong-VM troubleshooting, an apartment-building teaching analogy, and notes distinguishing unallocated disk space from free volume space. `clean all` is reference material only; no `exit` screenshot is available.
+
 ### [Windows Local Security Policy: User Rights and Security Auditing](windows-local-security-policy/README.md)
 
 **Windows 10 | Local Security Policy | User Rights | Event Viewer**
@@ -46,3 +52,4 @@ Investigated Windows startup settings, intentionally simulated a boot failure in
 ## About Me
 
 [GitHub Profile](https://github.com/tameshia) | [LinkedIn](https://www.linkedin.com/in/tameshia-scruggs/)
+
