@@ -170,6 +170,51 @@ The table below is a troubleshooting guide derived from the lab, not a record of
 
 Key practices reinforced here were validating results after configuration, using descriptive object names, avoiding unnecessary elevation, separating identity from authorization, and disabling temporary automation after testing. Adding every user to Administrators would undermine least privilege and increase the impact of mistakes or compromised accounts.
 
+## Review Questions
+
+Test your understanding before expanding the answers. These questions cover both observed lab results and the concepts behind them.
+
+1. In **Device Manager**, what is the difference between disabling a device and uninstalling its driver?
+2. Why does opening **Browse my computer for drivers** not prove a driver was updated?
+3. What was the difference between the displayed size of **Disk 1** and its **Simple-Lab (F:)** volume?
+4. How did **Disks 2 and 3** combine to form **Spanned-Lab (G:)**, and what change to disk type was required?
+5. Does a **spanned volume** protect data if one of its member disks fails? Why or why not?
+6. Why should you distinguish **MBR/GPT** from **basic/dynamic** when discussing disk configuration?
+7. In **Task Scheduler**, what is the difference between a task showing **Ready** and evidence that it actually ran?
+8. What did the sign-out/sign-in test demonstrate about **Launch-Command-Prompt-At-Logon**, and what did the screenshots *not* prove?
+9. Why was the task **disabled** after testing rather than deleted? What does disabling change?
+10. If a task has an **At log on of any user** trigger, does it necessarily run under the account of the person who signs in?
+11. What did **Check Names** verify when adding **LabUser01** to **Windows-Lab-Users**?
+12. What evidence confirmed LabUser01's membership, and why doesn't that automatically mean the account has administrator or folder access?
+13. Why might a newly changed group membership not affect a user session immediately?
+
+<details>
+<summary><strong>Review answers</strong></summary>
+
+1. **Disable** prevents the device from operating while retaining its installed configuration; **uninstall** removes the device's installed entry and may offer to remove driver software. The lab demonstrated disabling and opening a driver-browse workflow, not successful driver replacement.
+2. The wizard only begins a search/selection process. A suitable driver must actually be selected and installed, with a confirmed outcome.
+3. Disk 1 displayed **99 MB**, while its NTFS **Simple-Lab (F:)** volume displayed **97 MB**. Disk capacity and formatted volume size are not interchangeable.
+4. Disks 2 and 3 each contributed a **97 MB** extent to one **194 MB G:** volume. Both were converted from **basic to dynamic**; their final Dynamic labels were visible.
+5. **No.** Spanning combines capacity, not redundancy. Losing a member disk can make the volume unusable and cause data loss.
+6. **MBR/GPT** describes partition style; **basic/dynamic** describes the disk management model. A basic-to-dynamic conversion is not an MBR-to-GPT conversion.
+7. **Ready** means the task is registered and eligible to run when its conditions are met. Actual execution needs separate evidence, such as an observed result or task-history records.
+8. Command Prompt appeared after signing out and back in without being manually launched during that test, supporting successful execution. The console screenshot alone does **not** identify the parent process or prove a particular Task Scheduler event or return code.
+9. **Disable** preserves the task definition for later use while preventing automatic triggering. **Delete** removes the task definition. The lab confirmed Disabled but did not document a second logon test afterward.
+10. **No.** The trigger describes *when* it runs; the configured **principal/execution account** determines the security context. This task was configured for the student account.
+11. **Check Names** resolved the typed account to **DESKTOP-H5BSRCR\\LabUser01**, confirming Windows recognized the specified local identity.
+12. The saved **Windows-Lab-Users** group properties displayed **LabUser01** under Members. Membership in a newly created custom group does not itself confer administrator rights or grant an NTFS folder permission.
+13. Existing sign-in sessions may still use an earlier **access token**. Signing out and signing in again generally creates a token reflecting updated group memberships; existing connections may also need attention.
+
+</details>
+
+## Lessons Learned
+
+This lab reinforced a repeatable administration pattern:
+
+**Inspect configuration → Make a controlled change → Verify the resulting state → Test behavior where possible → Clean up temporary changes.**
+
+The most important distinction was between **configuration evidence** (such as Dynamic disk labels, a Ready task, or a saved group membership) and **behavioral evidence** (such as Command Prompt appearing after logon). I also learned to avoid treating a spanned volume as fault-tolerant storage or assuming a new group automatically grants access.
+
 ## Screenshot Evidence Index
 
 | Section | Files |
