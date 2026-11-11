@@ -19,6 +19,12 @@ Each project will include its objective, tools, procedures, troubleshooting obse
 
 ## Projects
 
+### [Windows Management Part II: Devices, Storage, Automation, and Local Accounts](windows-management-part-ii/README.md)
+
+**Windows 11 | Device Manager | Disk Management | Task Scheduler | Local Users and Groups**
+
+Managed a virtual DVD-ROM, created a 97 MB NTFS simple volume and a 194 MB NTFS spanned volume with dynamic disks, tested and disabled a logon-triggered Command Prompt task, and verified LabUser01 membership in Windows-Lab-Users. Includes nine screenshots, evidence limits, troubleshooting guidance, security lessons, and official references.
+
 ### [Windows DiskPart Management: GPT Partitioning and NTFS Formatting](windows-diskpart-management/README.md)
 
 **Windows 11 | Hyper-V | DiskPart | GPT | NTFS**
