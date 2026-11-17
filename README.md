@@ -19,6 +19,12 @@ Each project will include its objective, tools, procedures, troubleshooting obse
 
 ## Projects
 
+### [Ubuntu 22.04 LTS Installation in Hyper-V: GRUB Troubleshooting](ubuntu-installation-hyper-v/README.md)
+
+**Ubuntu 22.04 | Hyper-V | UEFI | GRUB | PowerShell**
+
+Installed Ubuntu 22.04.5 LTS in the school-provided ws1L VM after investigating a GRUB `can't allocate initrd` boot failure with the original Ubuntu 22.04.1 image. Documents VM configuration, ISO verification, partitioning, installation, post-install boot validation, an evidence-based troubleshooting log, and expandable review questions. The precise root cause remains unconfirmed.
+
 ### [Windows Management Part II: Devices, Storage, Automation, and Local Accounts](windows-management-part-ii/README.md)
 
 **Windows 11 | Device Manager | Disk Management | Task Scheduler | Local Users and Groups**
