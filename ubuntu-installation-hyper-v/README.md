@@ -36,6 +36,19 @@ The school assignment specified **ws1L** and an Ubuntu 22.04 Desktop ISO. I insp
 | Installation media | ISO attached to virtual DVD drive |
 | Boot priority | Changed to DVD first for installation |
 
+
+![Hyper-V memory configuration](screenshots/01-hyper-v-memory.webp)
+
+*Hyper-V memory configuration.*
+
+![Hyper-V virtual processor configuration](screenshots/02-hyper-v-processors.webp)
+
+*Hyper-V virtual processor configuration.*
+
+![Ubuntu installation ISO attached to the virtual DVD drive](screenshots/03-virtual-dvd-iso.webp)
+
+*Ubuntu installation ISO attached to the virtual DVD drive.*
+
 The original boot order prioritized the virtual hard disk; I moved the DVD drive ahead of it. This change alone did **not** resolve the boot error.
 
 **Concept:** Hyper-V presents virtualized hardware to the guest. Firmware selects a boot device; the bootloader then loads the operating system. Those are separate stages.
@@ -44,12 +57,21 @@ The original boot order prioritized the virtual hard disk; I moved the DVD drive
 
 ### Symptom
 
+![Original Ubuntu installation image at the GRUB boot menu](screenshots/04-grub-boot-menu.webp)
+
+*Original Ubuntu installation image at the GRUB boot menu.*
+
 The original school-provided Ubuntu image reached **GNU GRUB 2.06** and showed the normal installation menu, including **Try or Install Ubuntu** and **Ubuntu (safe graphics)**. After choosing a boot option, the VM displayed:
 
 ```text
 error: can't allocate initrd.
 Press any key to continue...
 ```
+
+
+![GRUB boot failure reporting that it cannot allocate initrd](screenshots/05-grub-initrd-error.webp)
+
+*GRUB boot failure reporting that it cannot allocate initrd.*
 
 **Interpretation:** GRUB reported a failure allocating memory for the initial RAM disk (`initrd`), which is used during early Linux startup. This error does not, by itself, establish that the VM lacks enough total RAM.
 
@@ -79,6 +101,11 @@ Example read-only PowerShell command used:
 ```powershell
 Get-FileHash -Path 'C:\Users\adminuser\Desktop\ISO_Folder\IT 120\Ubuntu22.iso' -Algorithm SHA256
 ```
+
+
+![PowerShell checksum investigation of the original Ubuntu ISO](screenshots/06-original-iso-checksum.webp)
+
+*PowerShell checksum investigation of the original Ubuntu ISO.*
 
 ### Resolution and evidence limits
 
@@ -112,6 +139,24 @@ The newer initrd was **larger**, despite booting successfully. These size differ
 
 **Evidence boundary:** The screenshots confirm the partition confirmation and completed installation, but do not independently show every intermediate installer choice (for example, keyboard layout or software selection). The assignment also requested adding Terminal to Favorites and capturing a desktop screenshot; those final actions are not independently evidenced in the screenshots available for this portfolio write-up.
 
+### Installation screenshots
+
+![Ubuntu installer welcome screen after switching to the newer ISO](screenshots/07-ubuntu-installer-welcome.webp)
+
+*Ubuntu installer welcome screen after switching to the newer ISO.*
+
+![Ubuntu installer installation type screen](screenshots/08-ubuntu-installation-type.webp)
+
+*Ubuntu installer installation type screen.*
+
+![Installer confirmation of proposed disk partition changes](screenshots/09-partition-confirmation.webp)
+
+*Installer confirmation of proposed disk partition changes.*
+
+![Ubuntu installation complete and ready to restart](screenshots/10-installation-complete.webp)
+
+*Ubuntu installation complete and ready to restart.*
+
 ### Disk concepts: Windows and Linux
 
 | Concept | In this Ubuntu installation | Related Windows concept |
@@ -127,6 +172,15 @@ The newer initrd was **larger**, despite booting successfully. These size differ
 After installation, I opened **Hyper-V Settings → SCSI Controller → DVD Drive** and changed **Media** to **None**. I left the virtual hard disk attached.
 
 **Observed:** The VM restarted and displayed the Ubuntu login screen with the newly created account. This verifies that the installed system could boot from its virtual hard disk without the installer ISO attached.
+
+
+![Hyper-V virtual DVD drive with installation media disconnected](screenshots/11-dvd-disconnected.webp)
+
+*Hyper-V virtual DVD drive with installation media disconnected.*
+
+![Ubuntu login screen following successful installation](screenshots/12-ubuntu-login.webp)
+
+*Ubuntu login screen following successful installation.*
 
 Disconnecting the ISO prevents the VM from inadvertently returning to the live installer. It does **not** uninstall Ubuntu or delete the virtual disk.
 
