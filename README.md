@@ -25,6 +25,12 @@ Each project will include its objective, tools, procedures, troubleshooting obse
 
 Installed Ubuntu 22.04.5 LTS in the school-provided ws1L VM after investigating a GRUB `can't allocate initrd` boot failure with the original Ubuntu 22.04.1 image. Documents VM configuration, ISO verification, partitioning, installation, post-install boot validation, an evidence-based troubleshooting log, and expandable review questions. The precise root cause remains unconfirmed.
 
+### [Ubuntu Command Line: File Management, User Administration, and Permissions](ubuntu-command-line/README.md)
+
+**Ubuntu | Bash | sudo | chmod | Linux users and groups**
+
+Completed directory navigation, file operations, output redirection, and network interface inspection; created and verified a temporary user, tested file and directory permissions, investigated an intentional permission failure, and verified account deletion and cleanup. Includes verified terminal outputs, security lessons, and expandable review questions. Screenshot collection is being prepared for repository upload.
+
 ### [Windows Management Part II: Devices, Storage, Automation, and Local Accounts](windows-management-part-ii/README.md)
 
 **Windows 11 | Device Manager | Disk Management | Task Scheduler | Local Users and Groups**
